@@ -103,11 +103,13 @@ const Minter = (props) => {
         {walletAddress.length > 0 ? (
           <>
           <span>
-            Connected: {String(walletAddress).substring(0, 6)}...
+            Account 🦊: {String(walletAddress).substring(0, 6)}...
             {String(walletAddress).substring(38)}
           </span>
           <br />
           <span>Balance: {balance}</span> {/* Display account balance */}
+          <br />
+          <span> Total Reward: </span>
         </>
 
         ) : (

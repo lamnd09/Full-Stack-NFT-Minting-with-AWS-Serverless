@@ -3,10 +3,10 @@ import uploadToIPFS from './ipfs.js';
 require('dotenv').config();
 
 const Web3 = require('web3');
-const web3 = new Web3('http://localhost:8545');
+const web3 = new Web3(window.ethereum);
 
 const contractABI = require('../contract-abi.json')
-const contractAddress = "0x09099668ffA1b4E917B6b3965632b682f4B94fbC";
+const contractAddress = "0xF50bF71285c0f9Eb09473100c12Aa28E2AE6E380";
 
 
 async function loadContract() {
@@ -43,6 +43,7 @@ export const mintNFT = async (url, name, description) => {
 
   const address = window.ethereum.selectedAddress;
   const nonce = await web3.eth.getTransactionCount(address);
+
   console.log(nonce)
 
   //set up your Ethereum transaction

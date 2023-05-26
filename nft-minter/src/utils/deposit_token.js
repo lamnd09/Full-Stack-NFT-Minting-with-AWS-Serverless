@@ -1,10 +1,10 @@
 const Web3 = require('web3');
-const web3 = new Web3(window.ethereum);
+const web3 = new Web3('http://localhost:8545');
 
 // Contract and Token details
-const contractAddress = '0x09099668ffA1b4E917B6b3965632b682f4B94fbC';
+const contractAddress = '0xF50bF71285c0f9Eb09473100c12Aa28E2AE6E380';
 const contractABI = require('../contract-abi.json');
-const tokenAddress = '0x07b75bB66ABE33769DaAf79069EE85933DfA35c9';
+const tokenAddress = '0x17f713aC25039abbfFc34354d3084FC2183b49d5';
 const tokenABI = require('../rewardtoken-abi.json');
 
 // Function to deposit tokens into the contract
@@ -27,7 +27,7 @@ async function depositTokens(amount, yourAddress) {
 }
 
 // Usage example
-const amount = 1000000; // Amount of tokens to deposit
+const amount = 100; // Amount of tokens to deposit
 const yourAddress = '0x8dE930dbAd0D99759Db57C2F906010f87D4185FF';
 
 depositTokens(amount, yourAddress);
