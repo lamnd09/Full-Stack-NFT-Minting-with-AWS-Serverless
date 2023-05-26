@@ -14,7 +14,7 @@ async function uploadToIPFS(jsonData) {
     console.log('Successfully uploaded, CID:', file.path);
 
     // IPFS gateway URL to access the data
-    const url = `https://ipfs.io/ipfs/${file.path}`;
+    const url = `http://localhost:8080/ipfs/${file.path}`;
     console.log('Access your data at:', url);
 
     return url;
@@ -24,5 +24,7 @@ async function uploadToIPFS(jsonData) {
 }
 
 // Use the function
-const myData = { key: "value" };
-uploadToIPFS(myData);
+//const myData =  {"name":"MyNFT","image":"https://mywebsite.com/myimage.jpg","description":"This is my NFT."}
+//uploadToIPFS(myData);
+
+export default uploadToIPFS;
