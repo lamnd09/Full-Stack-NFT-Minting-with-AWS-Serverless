@@ -50,7 +50,7 @@ button {
   font-weight: 500;
   text-align: center;
   font-weight: bold;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 #title {
@@ -58,7 +58,7 @@ button {
 }
 
 #status {
-  color:red;
+  color: red;
 }
 
 .uploadFile {
@@ -70,13 +70,15 @@ button {
 
 #walletButton {
   text-align: right;
-  float:right;
+  float: right;
   margin-bottom: 50px;
-  line-height: 16px;
+  line-height: 30px;
+  width: fit-content;
+  height: fit-content;
 }
 
 #mintButton {
   margin-top: 40px;
   background-color: #254cdd;
-  color:white;
+  color: white;
 }

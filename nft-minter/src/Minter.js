@@ -2,6 +2,7 @@ import { ur } from "@faker-js/faker";
 import { useEffect, useState } from "react";
 import { connectWallet, getCurrentWalletConnected, mintNFT } from "./utils/interact";
 import Web3 from "web3";
+import getRewardBalance from "./utils/getRewardBalance";
 
 const Minter = (props) => {
 
@@ -11,8 +12,10 @@ const Minter = (props) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [url, setURL] = useState("");
- 
+
   const [balance, setBalance] = useState("");
+  const [rewardBalance, setRewardBalance] = useState("");
+  const [mintedTokens, setMintedTokens] = useState([]);
 
   useEffect(() => {
     async function initialize() {
@@ -37,7 +40,7 @@ const Minter = (props) => {
           setWallet(accounts[0]);
           setStatus("👆🏽 Write a message in the text-field above.");
           // Fetch and update the account balance
-          const balance =  getAccountBalance(accounts[0]);
+          const balance = getAccountBalance(accounts[0]);
           setBalance(balance);
 
         } else {
@@ -60,9 +63,9 @@ const Minter = (props) => {
     }
   }
 
-  
+
   useEffect(async () => { //TODO: implement react hook
-    const {address, status} = await getCurrentWalletConnected();
+    const { address, status } = await getCurrentWalletConnected();
     setWallet(address);
     setStatus(status);
 
@@ -71,6 +74,10 @@ const Minter = (props) => {
     // Fetch and update the account balance
     const balance = await getAccountBalance(address);
     setBalance(balance);
+
+    // Fetch and update the account balance
+    const rewardBalance = await getRewardBalance(address);
+    setRewardBalance(rewardBalance);
 
   }, []);
 
@@ -85,16 +92,18 @@ const Minter = (props) => {
     const walletResponse = await connectWallet();
     setStatus(walletResponse.status);
     setWallet(walletResponse.address);
-    
+
     // Fetch and update the account balance
     const balance = await getAccountBalance(walletResponse.address);
     setBalance(balance);
-   
+
   };
 
   const onMintPressed = async () => { //TODO: implement
-    const {status} = await mintNFT(url, name, description);
+    const { status } = await mintNFT(url, name, description);
     setStatus(status);
+    setRewardBalance(rewardBalance);
+    setMintedTokens(mintedTokens);
   };
 
   return (
@@ -102,28 +111,30 @@ const Minter = (props) => {
       <button id="walletButton" onClick={connectWalletPressed}>
         {walletAddress.length > 0 ? (
           <>
-          <span>
-            Account 🦊: {String(walletAddress).substring(0, 6)}...
-            {String(walletAddress).substring(38)}
-          </span>
-          <br />
-          <span>Balance: {balance}</span> {/* Display account balance */}
-          <br />
-          <span> Total Reward: </span>
-        </>
+            <span>
+              Account 🦊: {String(walletAddress).substring(0, 6)}...
+              {String(walletAddress).substring(38)}
+            </span>
+            <br />
+            <span>Balance: {balance} ETH</span> {/* Display account balance */}
+            <br />
+            <span> Total Reward: {rewardBalance} ETH </span>{ }
+          </>
 
         ) : (
           <span>Connect Wallet</span>
         )}
       </button>
-
+      <br></br>
+      <br></br>
+      <br></br>
       <br></br>
       <h1 id="title"> Quadrant.io NFT Assignment</h1>
       <p>
         Simply add your asset's link, name, and description, then press "Mint."
       </p>
       <form>
-      <h2>🤔 Name: </h2>
+        <h2>🤔 Name: </h2>
         <input
           type="text"
           placeholder="e.g. My first NFT!"
@@ -143,7 +154,7 @@ const Minter = (props) => {
           placeholder="e.g. http://localhost:8080/ipfs/QmSimUVgZxkQ4vK2Qh2kcMruebQ9kyWdWNBE88CyXRnu5n"
           onChange={(event) => setURL(event.target.value)}
         />
-        
+
       </form>
       <button id="mintButton" onClick={onMintPressed}>
         Mint NFT
@@ -151,6 +162,15 @@ const Minter = (props) => {
       <p id="status">
         {status}
       </p>
+
+      <h2>Minted Tokens</h2>
+      <ul>
+        {mintedTokens.map((token, index) => (
+          <li key={index}>
+            Token: {token} {/* You can customize this based on the structure of your tokens */}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

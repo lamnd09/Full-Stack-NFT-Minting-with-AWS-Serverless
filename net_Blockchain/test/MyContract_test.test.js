@@ -1,69 +1,56 @@
-const { expect } = require("chai");
-const RewardToken = artifacts.require("RewardToken");
-const MyNFT = artifacts.require("MyNFT");
+const MyNFT = artifacts.require('MyNFT');
+const { assert } = require('chai');
+const BN = web3.utils.BN;
+const { expectRevert } = require('@openzeppelin/test-helpers');
 
-contract("NFT and RewardToken test", function (accounts) {
-    it("Mints NFT and rewards owner", async function () {
-        /* Same as before */
+let myNFTInstance;
+beforeEach(async function () {
+    myNFTInstance = await MyNFT.new();
+});
+
+contract('MyNFT', (accounts) => {
+    it('should mint a new NFT', async () => {
+        let recipient = accounts[1];
+        let tokenURI = "tokenURI1";
+        await myNFTInstance.depositETH({ from: accounts[0], value: web3.utils.toWei('2', 'ether') });
+        await myNFTInstance.mintNFT(recipient, tokenURI, { from: accounts[0] });
+
+        let exists = await myNFTInstance.checkTokenExists(tokenURI);
+        assert.isTrue(exists, "TokenURI does not exist");
+
+        let mintedTokens = await myNFTInstance.getMintedTokens(recipient);
+        assert.equal(mintedTokens.length, 1, "Minted tokens length should be 1");
+
+        let totalRewards = await myNFTInstance.totalRewards(recipient);
+        assert.equal(totalRewards.toString(), web3.utils.toWei('1', 'ether'), "Reward should be 1 ether");
     });
 
-    it("Mints multiple NFTs", async function () {
-        const owner = accounts[0];
-        const rewardToken = await RewardToken.new();
-        const myNFT = await MyNFT.new(rewardToken.address);
+    it('should fail when minting a token with a URI that already exists', async () => {
+        let recipient = accounts[1];
+        let tokenURI = "tokenURI2";
+        await myNFTInstance.depositETH({ from: accounts[0], value: web3.utils.toWei('2', 'ether') });
+        await myNFTInstance.mintNFT(recipient, tokenURI, { from: accounts[0] });
 
-        const initialRewardSupply = web3.utils.toWei("100", "ether");
-        await rewardToken.transfer(myNFT.address, initialRewardSupply);
-
-        // Mint two NFTs
-        await myNFT.mintNFT(owner, "tokenURI1", { from: owner });
-        await myNFT.mintNFT(owner, "tokenURI2", { from: owner });
-
-        // Owner should have 2 NFTs
-        expect((await myNFT.balanceOf(owner)).toString()).to.equal("2");
-
-        // Owner should have 999902 reward tokens (999902 * 10**18)
-        const ownerBalance = await rewardToken.balanceOf(owner);
-        expect(ownerBalance.toString()).to.equal(web3.utils.toWei("999902", "ether"));
+        await expectRevert(
+            myNFTInstance.mintNFT(recipient, tokenURI, { from: accounts[0] }),
+            "Token already exists"
+        );
     });
 
-    it("Fails to mint when not enough reward tokens", async function () {
-        const owner = accounts[0];
-        const rewardToken = await RewardToken.new();
-        const myNFT = await MyNFT.new(rewardToken.address);
-
-        // Transfer less than 1 token to the contract
-        await rewardToken.transfer(myNFT.address, web3.utils.toWei("0.5", "ether"));
-
-        // Expect minting to fail
-        try {
-            await myNFT.mintNFT(owner, "tokenURI", { from: owner });
-        } catch (error) {
-            expect(error.message).to.include("Not enough tokens in contract to reward user");
-            return;
-        }
-
-        assert(false, "The contract should have thrown an error but didn't");
-    });
-
-    it("Transfers NFT ownership correctly", async function () {
-        const [owner, recipient] = accounts;
-        const rewardToken = await RewardToken.new();
-        const myNFT = await MyNFT.new(rewardToken.address);
-
-        const initialRewardSupply = web3.utils.toWei("100", "ether");
-        await rewardToken.transfer(myNFT.address, initialRewardSupply);
-
-        // Mint NFT
-        await myNFT.mintNFT(owner, "tokenURI", { from: owner });
-
-        // Transfer NFT
-        await myNFT.transferFrom(owner, recipient, 1, { from: owner });
-
-        // Recipient should now have one NFT
-        expect((await myNFT.balanceOf(recipient)).toString()).to.equal("1");
-
-        // Original owner should have zero NFTs
-        expect((await myNFT.balanceOf(owner)).toString()).to.equal("0");
-    });
+    it('should deposit ETH', async () => {
+        await myNFTInstance.depositETH({from: accounts[0], value: web3.utils.toWei('2', 'ether')});
+      
+        let contractBalance = await web3.eth.getBalance(myNFTInstance.address);
+        assert.equal(contractBalance, web3.utils.toWei('2', 'ether'), "Contract balance should be 2 ether");
+      });
+      
+      it('should withdraw all ETH', async () => {
+        await myNFTInstance.depositETH({from: accounts[0], value: web3.utils.toWei('2', 'ether')});
+      
+        await myNFTInstance.withdrawETH({from: accounts[0]});
+      
+        let contractBalance = await web3.eth.getBalance(myNFTInstance.address);
+        assert.equal(contractBalance, '0', "Contract balance should be 0");
+      });
+      
 });

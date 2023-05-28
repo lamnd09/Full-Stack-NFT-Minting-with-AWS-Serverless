@@ -4,47 +4,83 @@ pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract MyNFT is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    IERC20 public rewardToken;
+    // Mapping to track the rewards received by each user
+    mapping(address => uint256) private rewardsReceived;
+    // Mapping to track the NFTs minted by each user
+    mapping(address => uint256[]) private userMintedTokens;
+    // Mapping to check if a token has already been minted
+    mapping(string => bool) private tokenExists;
 
-    constructor(IERC20 _rewardToken) public ERC721("MyNFT", "NFT") {
-        rewardToken = _rewardToken;
-    }
+    constructor() public ERC721("MyNFT", "NFT") {}
 
     function mintNFT(address recipient, string memory tokenURI)
-        public onlyOwner
+        public
         returns (uint256)
     {
+        require(!tokenExists[tokenURI], "Token already exists");
+
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
         _mint(recipient, newItemId);
         _setTokenURI(newItemId, tokenURI);
 
-        // Reward the user with ERC20 tokens
+        // Reward the user with 1 ETH.
         rewardUser(recipient);
+
+        // Track the NFTs minted by the user
+        userMintedTokens[recipient].push(newItemId);
+
+        // Mark the token as minted
+        tokenExists[tokenURI] = true;
 
         return newItemId;
     }
 
     function rewardUser(address user) internal {
-        // Define the reward amount. It could also be variable.
-        uint256 rewardAmount = 1 * 10**18; // This assumes that your token has 18 decimals, change it accordingly.
+        uint256 rewardAmount = 1 ether;
 
-        // Check if the contract has enough balance to give the reward.
-        require(rewardToken.balanceOf(address(this)) >= rewardAmount, "Not enough tokens in contract to reward user");
+        require(address(this).balance >= rewardAmount, "Not enough Ether to reward user");
 
-        // Transfer the reward to the user
-        rewardToken.transfer(user, rewardAmount);
+        // Update the rewardsReceived mapping
+        rewardsReceived[user] += rewardAmount;
+
+        // Transfer the reward to the user.
+        (bool success, ) = payable(user).call{value: rewardAmount}("");
+        require(success, "Failed to send Ether");
+
+        emit UserRewarded(user, rewardAmount);
     }
 
-    function depositTokens(uint256 amount) public {
-        // Transfer tokens from the caller to this contract
-        rewardToken.transferFrom(msg.sender, address(this), amount);
+    // This function allows the contract owner to deposit ETH into the contract
+    function depositETH() public payable {}
+
+    // This function will allow the owner to withdraw all the remaining ETH.
+    function withdrawETH() public onlyOwner {
+        uint balance = address(this).balance;
+        payable(owner()).transfer(balance);
     }
+
+    // Function to get the total amount of rewards an user received
+    function totalRewards(address user) public view returns (uint256) {
+        return rewardsReceived[user];
+    }
+
+    // Function to get all tokens minted by a user
+    function getMintedTokens(address user) public view returns (uint256[] memory) {
+        return userMintedTokens[user];
+    }
+
+    // Function to check if a token with a given URI already exists
+    function checkTokenExists(string memory tokenURI) public view returns (bool) {
+        return tokenExists[tokenURI];
+    }
+
+    // Event emitted when a user is rewarded
+    event UserRewarded(address indexed user, uint256 rewardAmount);
 }

@@ -1,4 +1,6 @@
 
+import getMintedTokens from "./getMintedTokens";
+import getRewardBalance from "./getRewardBalance";
 import uploadToIPFS from './ipfs.js';
 require('dotenv').config();
 
@@ -6,8 +8,7 @@ const Web3 = require('web3');
 const web3 = new Web3(window.ethereum);
 
 const contractABI = require('../contract-abi.json')
-const contractAddress = "0xF50bF71285c0f9Eb09473100c12Aa28E2AE6E380";
-
+const contractAddress = '0x17f713aC25039abbfFc34354d3084FC2183b49d5';
 
 async function loadContract() {
   return new web3.eth.Contract(contractABI, contractAddress);
@@ -62,9 +63,18 @@ export const mintNFT = async (url, name, description) => {
         method: 'eth_sendTransaction',
         params: [transactionParameters],
       });
+
+    // Fetch and update the minted tokens
+    const tokens = await getMintedTokens(address);
+
+    // Fetch and update the reward balance
+    const rewardBalance = await getRewardBalance(address);
+
     return {
       success: true,
-      status: "✅ Check out your transaction on Etherscan: https://goerli.etherscan.io/tx/" + txHash
+      status: "✅ Check out your transaction on Etherscan: https://goerli.etherscan.io/tx/" + txHash,
+      mintedTokens: tokens,
+      rewardBalance: rewardBalance,
     }
   } catch (error) {
     return {

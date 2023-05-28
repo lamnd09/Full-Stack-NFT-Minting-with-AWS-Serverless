@@ -1,0 +1,21 @@
+version: '3'
+services:
+  ganache:
+    image: trufflesuite/ganache-cli:latest
+    command: ganache-cli -a 20 -e 1000  -m "test test test test test test test test test test test okay" -i 1337
+    ports:
+      - "8545:8545"
+
+  ipfs:
+    image: ipfs/go-ipfs:latest
+    command: >
+      /bin/bash -c "
+        ipfs init &&
+        ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[\"http://localhost:3000\"]' &&
+        ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '[\"PUT\", \"POST\", \"GET\"]' &&
+        ipfs daemon
+      "
+    ports:
+      - "4001:4001"
+      - "5001:5001"
+      - "8080:8080"
