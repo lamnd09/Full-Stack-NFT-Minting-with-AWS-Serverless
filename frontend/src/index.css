@@ -3,7 +3,7 @@
 body {
   margin: 0;
   font-family: 'Rubik';
-  color: #254cdd;
+  color: #00256f;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -41,8 +41,8 @@ input:focus {
 button {
   padding: 9px 16px;
   max-height: 40px;
-  border-color: #254cdd;
-  color: #254cdd;
+  border-color: #2edd25;
+  color: #2562dd;
   background-color: white;
   border-radius: 8px;
   align-items: center;
@@ -79,6 +79,6 @@ button {
 
 #mintButton {
   margin-top: 40px;
-  background-color: #254cdd;
-  color: white;
+  background-color: #d125dd;
+  color: rgb(243, 245, 233);
 }

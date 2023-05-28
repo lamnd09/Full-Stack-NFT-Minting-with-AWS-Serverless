@@ -25,6 +25,7 @@ const Minter = (props) => {
 
       addWalletListener();
 
+
       // Fetch and update the account balance
       const balance = await getAccountBalance(address);
       setBalance(balance);
@@ -116,9 +117,9 @@ const Minter = (props) => {
               {String(walletAddress).substring(38)}
             </span>
             <br />
-            <span>Balance: {balance} ETH</span> {/* Display account balance */}
+            <span>💰 Balance: {balance} ETH</span> {/* Display account balance */}
             <br />
-            <span> Total Reward: {rewardBalance} ETH </span>{ }
+            <span> 💰 Total Reward: {rewardBalance} ETH </span>{ }
           </>
 
         ) : (
@@ -129,26 +130,26 @@ const Minter = (props) => {
       <br></br>
       <br></br>
       <br></br>
-      <h1 id="title"> Quadrant.io NFT Assignment</h1>
+      <h1 id="title"> NFT Assignment</h1>
       <p>
         Simply add your asset's link, name, and description, then press "Mint."
       </p>
       <form>
-        <h2>🤔 Name: </h2>
+        <h2> 🚀 NFT Name: </h2>
         <input
           type="text"
-          placeholder="e.g. My first NFT!"
+          placeholder="e.g. MFT number #1!"
           onChange={(event) => setName(event.target.value)}
         />
 
-        <h2>✍️ Description: </h2>
+        <h2> 🚀 NFT Description: </h2>
         <input
           type="text"
-          placeholder="e.g. Even cooler than cryptokitties ;)"
+          placeholder="e.g. Type smt cool here ;)"
           onChange={(event) => setDescription(event.target.value)}
         />
 
-        <h2>🖼 Link to asset: </h2>
+        <h2> 🚀 Link to Digital Asset (e.g, IPFS link): </h2>
         <input
           type="text"
           placeholder="e.g. http://localhost:8080/ipfs/QmSimUVgZxkQ4vK2Qh2kcMruebQ9kyWdWNBE88CyXRnu5n"
@@ -157,13 +158,13 @@ const Minter = (props) => {
 
       </form>
       <button id="mintButton" onClick={onMintPressed}>
-        Mint NFT
+        Mint NFT ⛏️
       </button>
       <p id="status">
         {status}
       </p>
 
-      <h2>Minted Tokens</h2>
+      <h2>Minted Tokens </h2>
       <ul>
         {mintedTokens.map((token, index) => (
           <li key={index}>
