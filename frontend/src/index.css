@@ -41,9 +41,9 @@ input:focus {
 button {
   padding: 9px 16px;
   max-height: 40px;
-  border-color: #2edd25;
+  border-color: #253ddd;
   color: #2562dd;
-  background-color: white;
+  background-color: rgb(203, 211, 130);
   border-radius: 8px;
   align-items: center;
   font-size: 16px;
@@ -79,6 +79,6 @@ button {
 
 #mintButton {
   margin-top: 40px;
-  background-color: #d125dd;
+  background-color: #0b7cd8;
   color: rgb(243, 245, 233);
 }

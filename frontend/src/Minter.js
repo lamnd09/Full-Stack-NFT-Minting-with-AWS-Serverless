@@ -25,7 +25,6 @@ const Minter = (props) => {
 
       addWalletListener();
 
-
       // Fetch and update the account balance
       const balance = await getAccountBalance(address);
       setBalance(balance);
@@ -132,7 +131,8 @@ const Minter = (props) => {
       <br></br>
       <h1 id="title"> NFT Assignment</h1>
       <p>
-        Simply add your asset's link, name, and description, then press "Mint."
+        This is a simple application to mint NFT tokens and get rewarded with ETH.
+        Mint your first NFT and get rewarded with 1 ETH.
       </p>
       <form>
         <h2> 🚀 NFT Name: </h2>
