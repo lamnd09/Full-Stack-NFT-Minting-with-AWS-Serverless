@@ -1,5 +1,34 @@
-# nft-market-on-AWS
-This project implements basic full workflow cycle of nft project 
+# NFT Project on AWS Serverless
+This project is a decentralized application (DApp) for managing Non-Fungible Tokens (NFTs) on the Ethereum blockchain deployed in AWS Services.
+**[General Requirement]** Develop a serverless web application with a basic dashboard for a minting and distribution system of rewards in an NFT project. Implement a cron job to retrieve data from a database and automate the minting, distribution, and coin rewards for each NFT in a secure and scalable way using AWS technologies
+
+
+## Solution Design
+
+Based on the requirements, I design an AWS Serverless system as below:
+
+[!image](/docs/figures/aws_serverless_NFT.jpg)
+
+## 1. Features
+- Mint new NFTs with unique metadata and tokenURI
+- View owned NFTs and their details
+- Explore the NFT marketplace
+- Trade NFTs with other users
+
+## 2. Technologies Used
+### 2.1. For local testing Boilerplate 
+- Solidity: Programming language for writing smart contracts on Ethereum
+- Truffle: Development framework for Ethereum DApps
+- Open Zeppelin: Library for secure smart contract development
+- Web3.js: JavaScript library for interacting with Ethereum blockchain
+- React: JavaScript library for building user interfaces
+- IPFS: Decentralized storage for NFT metadata
+- Ganache: Local Ethereum blockchain for development and testing
+  
+ ### 2.2 For AWS deployment 
+ - AWS Account 
+ - AWS serverless, Lambda, Amplify, DynamoDB, etc. 
+ - Useful link: ... add a youtube link here 
 
 
 
