@@ -41,5 +41,7 @@ The detail of instructions is described as below
 
 ## 4. References 
 [1] https://docs.aws.amazon.com/serverless-application-model/index.html
+
 [2] NFT Minter Tutorial: How to Create a Full Stack DApp, https://docs.alchemy.com/docs/nft-minter
+
 [3] Develop a Full Stack Serverless NFT Application with Amazon Managed Blockchain – Part 1 | AWS Database Blog}, https://aws.amazon.com/blogs/database/part-1-develop-a-full-stack-serverless-nft-application-with-amazon-managed-blockchain/}. 
