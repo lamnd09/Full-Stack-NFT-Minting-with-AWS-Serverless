@@ -213,7 +213,7 @@ truffle test --network development
 
 We're going to need to configure this metadata as a JSON object and store it, so we can pass it in as the tokenURI parameter when calling our smart contract's mintNFT function.
 
-The text in the "Link to Asset", "Name", "Description" fields will comprise the different properties of our NFT's metadata. We'll format this metadata as a JSON object, but there are a couple options for where we can store this JSON object:
+The text in the "Link to NFT", "Name", "Description" fields will comprise the different properties of our NFT's metadata. We'll format this metadata as a JSON object, but there are a couple options for where we can store this JSON object:
 
 * We could store it on the Ethereum blockchain; however, doing so would be SUPER expensive (we're talking upwards of hundreds of dollars) due to the nature of Ethereum. ❌
 * We could store it on a centralized server, like AWS or Firebase. But that would defeat our decentralization ethos. ❌
@@ -228,3 +228,11 @@ ipfs daemon
 ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000"]'
 ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST", "GET"]'
 ```
+
+
+http://localhost:8080/ipfs/Qme2fW9XicTgVe4U5hRuTMC9i1bZiLmwUz8nEbaTExcx9W
+http://localhost:8080/ipfs/QmewEXjVzGQHmWzUVJopEgSsPrkd9npS4boyW2PNGGKVFv
+http://localhost:8080/ipfs/QmQ8dpUy2m4D11o489hkgrF2ttW5ftdPSbzmb6qcHKTGGj
+
+
+QmewEXjVzGQHmWzUVJopEgSsPrkd9npS4boyW2PNGGKVFv
