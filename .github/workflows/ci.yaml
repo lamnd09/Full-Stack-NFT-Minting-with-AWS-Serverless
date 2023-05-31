@@ -1,0 +1,47 @@
+name: Deploy DApp
+on:
+  push:
+    branches: 
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Replacing Environment Variables
+        env:
+          WALLET_MNEMONIC: ${{secrets.WALLET_MNEMONIC}}
+          INFURA_ENDPOINT: ${{secrets.INFURA_ENDPOINT}}
+          ETH_NETWORK_ID: ${{secrets.ETH_NETWORK_ID}}
+        run: |
+          sed -i "s@__MNEMONIC__@${WALLET_MNEMONIC}@g" environment.json
+          sed -i "s@__ENDPOINT__@${INFURA_ENDPOINT}@g" environment.json
+          sed -i "s@__REACT_APP_ETHEREUM_NETWORK_ID__@${ETH_NETWORK_ID}@g" .env
+
+      - name: Linting
+        run: |
+          npm i -g truffle
+          npm ci
+          npm run linter
+          npm run solhint
+
+      - name: Testing
+        run: npm run contract:test
+
+      - name: Deploy Contract
+        run: |
+          npm run contract:deploy -- --network development
+
+      - name: Build site
+        run: npm run build
+
+      - name: Deploy GH Page
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v1
+        with:
+          target_branch: gh-pages
+          build_dir: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
