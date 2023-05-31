@@ -3,11 +3,11 @@ This project is a decentralized application (DApp) for managing Non-Fungible Tok
 **[General Requirement]** Develop a serverless web application with a basic dashboard for a minting and distribution system of rewards in an NFT project. Implement a cron job to retrieve data from a database and automate the minting, distribution, and coin rewards for each NFT in a secure and scalable way using AWS technologies
 
 
-## Solution Design
+## Architecture Design
 
 Based on the requirements, I design an AWS Serverless system as below:
 
-[!image](/docs/figures/aws_serverless_NFT.jpg)
+[image](/docs/figures/aws_serverless_NFT.jpg)
 
 ## 1. Features
 - Mint new NFTs with unique metadata and tokenURI
