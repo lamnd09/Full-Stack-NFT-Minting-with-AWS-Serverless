@@ -1,0 +1,19 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lam Nguyen",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1386.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22",
+    "web3": "^1.10.0",
+    "xhr2": "^0.2.1"
+  }
+}

@@ -1,0 +1,26 @@
+name: Pull Request check
+on:
+  pull_request:
+    branches: 
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Linting
+        run: |
+          npm i -g truffle
+          npm ci
+          npm run linter
+          npm run solhint
+
+      - name: Testing
+        run: npm run contract:test
+
+      - name: Build site
+        run: |
+          npm run contract:build
+          npm run build
