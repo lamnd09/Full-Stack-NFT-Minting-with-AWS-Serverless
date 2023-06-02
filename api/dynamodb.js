@@ -9,13 +9,12 @@ export default class DbLogicObject {
         this.getItemFromDb = this.getItemFromDb.bind(this);
         this.getAllItems = this.getAllItems.bind(this);
     }
-    createItemInDb(nftID, owner, price, status, resultCallback) {
+    createItemInDb(nftID, owner, status, resultCallback) {
         var params = {
             TableName: this.dbTable,
             Item: {
                 'NFTID': nftID,
                 'Owner': owner,
-                'Price': price,
                 'Status': status
             }
         };

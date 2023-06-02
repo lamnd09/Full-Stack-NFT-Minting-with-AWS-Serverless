@@ -38,19 +38,19 @@ contract('MyNFT', (accounts) => {
     });
 
     it('should deposit ETH', async () => {
-        await myNFTInstance.depositETH({from: accounts[0], value: web3.utils.toWei('2', 'ether')});
-      
+        await myNFTInstance.depositETH({ from: accounts[0], value: web3.utils.toWei('2', 'ether') });
+
         let contractBalance = await web3.eth.getBalance(myNFTInstance.address);
         assert.equal(contractBalance, web3.utils.toWei('2', 'ether'), "Contract balance should be 2 ether");
-      });
-      
-      it('should withdraw all ETH', async () => {
-        await myNFTInstance.depositETH({from: accounts[0], value: web3.utils.toWei('2', 'ether')});
-      
-        await myNFTInstance.withdrawETH({from: accounts[0]});
-      
+    });
+
+    it('should withdraw all ETH', async () => {
+        await myNFTInstance.depositETH({ from: accounts[0], value: web3.utils.toWei('2', 'ether') });
+
+        await myNFTInstance.withdrawETH({ from: accounts[0] });
+
         let contractBalance = await web3.eth.getBalance(myNFTInstance.address);
         assert.equal(contractBalance, '0', "Contract balance should be 0");
-      });
-      
+    });
+
 });
