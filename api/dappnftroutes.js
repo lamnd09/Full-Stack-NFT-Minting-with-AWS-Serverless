@@ -1,5 +1,5 @@
 const express = require('express');
-const DAppObject = require('./dapplogic');
+const DAppObject = require('./dappnft');
 
 var router = express.Router();
 var dapp = new DAppObject();

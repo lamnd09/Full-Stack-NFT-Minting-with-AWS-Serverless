@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import { DynamoDBClient, PutCommand, GetCommand, ScanCommand } from "@aws-sdk/client-dynamodb";
 import MyNFTContract from './MyNFT.json';
-import DbLogicObject from './dblogic.js';
+import DbLogicObject from './dynamodb.js';
 
 export default class DAppLogicObject {
     constructor() {
