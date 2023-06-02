@@ -14,6 +14,7 @@ Based on the requirements, I design an AWS Serverless system as below:
 - View owned NFTs and their details
 - Get Rewards for minting NFTs, and show the reward balance
 - View all NFTs minted by a specific user
+- CI/CD process for project
 
 ## 2. Technologies Used
 ### 2.1. For local testing Boilerplate 
